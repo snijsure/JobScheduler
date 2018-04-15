@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:showIn="@layout/activity_main"
+        tools:context=".MainActivity">
+
+
+    <Button
+            android:text="Start Job"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="173dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="133dp"
+            android:id="@+id/schedule_job_btn"
+            tools:text="Scheduler Job"
+            android:onClick="clickJobSchedule"/>
+
+    <Button
+            android:text="Stop Job"
+            android:layout_width="138dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="184dp"
+            android:layout_alignStart="@+id/schedule_job_btn"
+            android:id="@+id/stop_job_btn"
+            tools:text="Stop Job"
+            android:onClick="clickStopJob"/>
+</RelativeLayout>
