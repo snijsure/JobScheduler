@@ -47,8 +47,9 @@ class JobScheduler : JobService() {
             val strToLong = result.toString()
             Log.d(TAG, "Fibonacci result -> $strToLong")
             jobFinished(params,true)
-            // Strange if we do explicitly do startJob job only runs once
+            // Strange if we don't explicitly do startJob this job only runs once
             // but if we call startJob explicitly it works, WTF!
+            // I thought jobFinished(...,true) is supposed to reschedule the job
             JobSchedulerHelper.startJob()
             JobSchedulerHelper.printAllPendingJobs()
         }
