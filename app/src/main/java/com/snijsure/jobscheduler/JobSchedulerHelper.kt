@@ -12,7 +12,7 @@ object JobSchedulerHelper {
     private val TAG = JobSchedulerHelper::class.java.simpleName
     private var jobScheduler : android.app.job.JobScheduler? = null
     private var jobInfo: JobInfo? = null
-    private val REFRESH_INTERVAL_N = (15 * 60 * 1000).toLong()
+    private var refreshInterval = (15 * 60 * 1000).toLong()
 
     fun initialize(context: Context) {
         val name = ComponentName(context,JobScheduler::class.java)
@@ -20,10 +20,13 @@ object JobSchedulerHelper {
         builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPersisted(true)
 
-        Log.d(TAG, "Job scheduled to be setMinimumLatency ${Build.VERSION.SDK_INT} N is ${Build.VERSION_CODES.N}")
-        builder.setMinimumLatency(REFRESH_INTERVAL_N)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            refreshInterval = JobInfo.getMinPeriodMillis()
+        Log.d(TAG, "Job scheduled refresh interval $refreshInterval")
+
+        builder.setMinimumLatency(refreshInterval)
         builder.setBackoffCriteria(5000, BACKOFF_POLICY_LINEAR)
-        builder.setOverrideDeadline(REFRESH_INTERVAL_N)
+        builder.setOverrideDeadline(refreshInterval)
 
         jobInfo = builder.build()
         jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as android.app.job.JobScheduler?
