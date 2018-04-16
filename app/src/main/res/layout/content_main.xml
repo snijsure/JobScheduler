@@ -10,22 +10,24 @@
 
     <Button
             android:text="Start Job"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="173dp"
+            android:layout_marginTop="100dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="133dp"
+            android:gravity="center"
             android:id="@+id/schedule_job_btn"
             tools:text="Scheduler Job"
             android:onClick="clickJobSchedule"/>
 
     <Button
             android:text="Stop Job"
-            android:layout_width="138dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="184dp"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:layout_below="@id/schedule_job_btn"
             android:layout_alignStart="@+id/schedule_job_btn"
             android:id="@+id/stop_job_btn"
             tools:text="Stop Job"

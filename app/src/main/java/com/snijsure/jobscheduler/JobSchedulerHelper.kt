@@ -24,9 +24,9 @@ object JobSchedulerHelper {
             refreshInterval = JobInfo.getMinPeriodMillis()
         Log.d(TAG, "Job scheduled refresh interval $refreshInterval")
 
-        builder.setMinimumLatency(refreshInterval)
-        builder.setBackoffCriteria(5000, BACKOFF_POLICY_LINEAR)
-        builder.setOverrideDeadline(refreshInterval)
+        builder.setPeriodic(refreshInterval)
+        //builder.setBackoffCriteria(5000, BACKOFF_POLICY_LINEAR)
+        //builder.setOverrideDeadline(refreshInterval)
 
         jobInfo = builder.build()
         jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as android.app.job.JobScheduler?

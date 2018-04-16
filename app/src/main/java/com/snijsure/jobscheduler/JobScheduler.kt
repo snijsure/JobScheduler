@@ -3,8 +3,11 @@ package com.snijsure.jobscheduler
 import android.app.job.JobParameters
 import android.app.job.JobService
 import android.util.Log
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import java.math.BigInteger
 
 
@@ -24,33 +27,27 @@ class JobScheduler : JobService() {
         return true
     }
 
-
-
-    // Lame implementation of Fibonacci computation
-    private fun iterativeFib(n:Long):Long {
-        var result = 0L
-        var  next = 1L
-        for (i in 1..n) {
-            val temporary: Long = result
-            result = next
-            next += temporary
+    private fun fib(i: BigInteger): BigInteger {
+        tailrec fun go(k: BigInteger, p: BigInteger, c: BigInteger): BigInteger {
+            return if (k == BigInteger("0")) p
+            else go(k - BigInteger("1"), c, p + c)
         }
-        return result
+
+        return go(i, BigInteger("0"), BigInteger("1"))
     }
 
     private fun computerFib(params: JobParameters?) {
 
         currentComputationJob = launch(UI) {
+            val starTime = System.currentTimeMillis()
             val result = async(CommonPool) {
-                iterativeFib(10000)
+                fib(BigInteger("1000000"))
             }.await()
+            val endTime = System.currentTimeMillis()
+            val delta = endTime - starTime;
             val strToLong = result.toString()
-            Log.d(TAG, "Fibonacci result -> $strToLong")
-            jobFinished(params,true)
-            // Strange if we don't explicitly do startJob this job only runs once
-            // but if we call startJob explicitly it works, WTF!
-            // I thought jobFinished(...,true) is supposed to reschedule the job
-            JobSchedulerHelper.startJob()
+            Log.d(TAG, "Fibonacci computation took $delta ms, result -> $strToLong ")
+            jobFinished(params, true)
             JobSchedulerHelper.printAllPendingJobs()
         }
     }
