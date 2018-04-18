@@ -16,8 +16,8 @@ class JobScheduler : JobService() {
     private var currentComputationJob: Job? = null
 
     override fun onStartJob(params: JobParameters?): Boolean {
-        computerFib(params)
-        return false
+        computeFib(params)
+        return true
     }
 
     override fun onStopJob(params: JobParameters?): Boolean {
@@ -36,7 +36,7 @@ class JobScheduler : JobService() {
         return go(i, BigInteger("0"), BigInteger("1"))
     }
 
-    private fun computerFib(params: JobParameters?) {
+    private fun computeFib(params: JobParameters?) {
 
         currentComputationJob = launch(UI) {
             val starTime = System.currentTimeMillis()
